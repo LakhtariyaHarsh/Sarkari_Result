@@ -1,0 +1,2 @@
+C:/Users/Fuert/second_ui/android/app/.cxx/Debug/245f4o1k/x86/CMakeFiles/edit_cache.dir
+C:/Users/Fuert/second_ui/android/app/.cxx/Debug/245f4o1k/x86/CMakeFiles/rebuild_cache.dir
