@@ -146,7 +146,7 @@ class _CarouselWithButtonOverlay extends State<CarouselWithButtonOverlay> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    Jobinformation(),
+                                                    Jobinformation(examId: examViewModel.buttonData[index]['id']!), 
                                               ),
                                             );
                                           },

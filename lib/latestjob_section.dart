@@ -23,7 +23,8 @@ class ResultAndLatestJobsSection extends StatelessWidget {
             // Latest Jobs Column
             ExamSection(
               title: "Latest Jobs",
-              exams: examViewModel.examList, color: Color(0xffaa183d),
+              exams: examViewModel.examList,
+              color: Color(0xffaa183d),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -32,7 +33,6 @@ class ResultAndLatestJobsSection extends StatelessWidget {
                   ),
                 );
               },
-
             ),
 
             ExamSection(
@@ -60,7 +60,8 @@ class ResultAndLatestJobsSection extends StatelessWidget {
             // Latest Jobs Column
             ExamSection(
               title: "Admit Card",
-              exams: examViewModel.admitCardExamList, color:Color(0xff3c6626) ,
+              exams: examViewModel.admitCardExamList,
+              color: Color(0xff3c6626),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -69,7 +70,6 @@ class ResultAndLatestJobsSection extends StatelessWidget {
                   ),
                 );
               },
-
             ),
 
             ExamSection(
@@ -101,7 +101,11 @@ class ExamSection extends StatelessWidget {
   final Color color;
   final VoidCallback onPressed;
 
-  ExamSection({required this.title, required this.exams, required this.color, required this.onPressed});
+  ExamSection(
+      {required this.title,
+      required this.exams,
+      required this.color,
+      required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +157,7 @@ class ExamSection extends StatelessWidget {
                   contentPadding: EdgeInsets.zero,
                   title: Row(
                     children: [
-                      Icon(Icons.circle, size: 9, color:color),
+                      Icon(Icons.circle, size: 9, color: color),
                       SizedBox(width: 5),
                       Flexible(
                         child: Text(
@@ -171,9 +175,8 @@ class ExamSection extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => Jobinformation(
-                            // examName: examName,
-                            // examId: examId,
-                            ),
+                            examId: exams[index]
+                                ["id"]!), // Pass examId to JobInformation
                       ),
                     );
                   },

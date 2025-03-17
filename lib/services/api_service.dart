@@ -6,8 +6,9 @@ class ApiService {
   final Dio _dio = Dio(
   BaseOptions(
     baseUrl: "http://10.0.2.2:4000/api",  // Use this for Android Emulator
-    connectTimeout: Duration(seconds: 10),
-    receiveTimeout: Duration(seconds: 10),
+    connectTimeout: Duration(seconds: 30),
+    receiveTimeout: Duration(seconds: 30),
+    sendTimeout: Duration(seconds: 30),
   ),
 );
 

@@ -52,7 +52,7 @@ class _ResultState extends State<Result> {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Jobinformation()),
+                                builder: (context) =>  Jobinformation(examId: exam['id']!,)),
                           ),
                           child: Card(
                             color: Color.fromARGB(255, 218, 229, 246),
