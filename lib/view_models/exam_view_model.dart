@@ -11,11 +11,18 @@ class ExamViewModel extends ChangeNotifier {
   List<Map<String, String>> answerKeyExamList = [];
   List<Map<String, String>> syllabusExamList = [];
   List<Map<String, String>> CertificateVerificationExamList = [];
+  List<Map<String, dynamic>> _searchResults = [];
   List<Map<String, String>> importantExamList = [];
 
   List<Map<String, String>> categories = [];
 
   Map<String, dynamic>? selectedExam; // Holds the fetched exam details
+
+  String? _errorMessage;
+
+  List<Map<String, dynamic>> get searchResults => _searchResults;
+  String? get errorMessage => _errorMessage;
+  List<Map<String, String>> get exams => examList;
 
   bool isLoading = false;
   int page = 1;
@@ -36,6 +43,105 @@ class ExamViewModel extends ChangeNotifier {
     await fetchExamsByCertificateVerification();
     await fetchExamsByImportant();
     await fetchCategories();
+  }
+
+  /// ✅ New Getter: Returns search results if searching, otherwise full list
+  List<Map<String, String>> get displayedExams {
+    if (_searchResults.isNotEmpty) {
+      return _searchResults.map((exam) {
+        return {
+          "id": exam["_id"].toString(),
+          "name": exam["name"].toString(),
+        };
+      }).toList();
+    }
+    return examList;
+  }
+
+  List<Map<String, String>> get displayedButtonData {
+    if (_searchResults.isNotEmpty) {
+      return _searchResults.map((exam) {
+        return {
+          "id": exam["_id"].toString(),
+          "name": exam["name"].toString(),
+        };
+      }).toList();
+    }
+    return buttonData;
+  }
+
+  List<Map<String, String>> get displayedadmitCardExamList {
+    if (_searchResults.isNotEmpty) {
+      return _searchResults.map((exam) {
+        return {
+          "id": exam["_id"].toString(),
+          "name": exam["name"].toString(),
+        };
+      }).toList();
+    }
+    return admitCardExamList;
+  }
+
+  List<Map<String, String>> get displayedResultExamList {
+    if (_searchResults.isNotEmpty) {
+      return _searchResults.map((exam) {
+        return {
+          "id": exam["_id"].toString(),
+          "name": exam["name"].toString(),
+        };
+      }).toList();
+    }
+    return resultExamList;
+  }
+
+  List<Map<String, String>> get displayedAnswerKeyExamList {
+    if (_searchResults.isNotEmpty) {
+      return _searchResults.map((exam) {
+        return {
+          "id": exam["_id"].toString(),
+          "name": exam["name"].toString(),
+        };
+      }).toList();
+    }
+    return answerKeyExamList;
+  }
+
+  List<Map<String, String>> get displayedSyllabusExamList {
+    if (_searchResults.isNotEmpty) {
+      return _searchResults.map((exam) {
+        return {
+          "id": exam["_id"].toString(),
+          "name": exam["name"].toString(),
+        };
+      }).toList();
+    }
+    return syllabusExamList;
+  }
+
+  /// ✅ Modified: Search Exams by Name
+  Future<void> searchExams(String query) async {
+    if (query.isEmpty) {
+      _searchResults.clear();
+      notifyListeners();
+      return;
+    }
+
+    _setLoading(true);
+    _errorMessage = null;
+    try {
+      var results = await _apiService.searchExamsByName(query);
+      _searchResults = results;
+    } catch (e) {
+      _errorMessage = "Failed to fetch search results: $e";
+      _searchResults = [];
+    }
+    _setLoading(false);
+  }
+
+  /// ✅ Clear Search Results
+  void clearSearch() {
+    _searchResults.clear();
+    notifyListeners();
   }
 
   Future<void> fetchExams() async {
@@ -180,8 +286,7 @@ class ExamViewModel extends ChangeNotifier {
     _setLoading(true);
     try {
       var data = await _apiService.getCategories();
-       categories =
-          data["categories"].map<Map<String, String>>((category) {
+      categories = data["categories"].map<Map<String, String>>((category) {
         return {
           "id": category["_id"].toString(),
           "name": category["categoryName"].toString(),

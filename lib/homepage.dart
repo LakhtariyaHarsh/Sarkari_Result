@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:second_ui/view_models/exam_view_model.dart';
 import 'categori_Section.dart';
 import 'apply_section.dart';
-import 'latestjob_section.dart';  
+import 'latestjob_section.dart';
 import 'category_update_section.dart';
 import 'package:intl/intl.dart';
 import 'carousal_slider.dart';
@@ -14,9 +16,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  TextEditingController _searchController = TextEditingController();
+  String _searchQuery = "";
   String selectedTitle = "";
   @override
   Widget build(BuildContext context) {
+    final examViewModel = Provider.of<ExamViewModel>(context);
     var time = DateTime.now();
     return Scaffold(
       appBar: AppBar(
@@ -80,9 +85,19 @@ class _HomePageState extends State<HomePage> {
                     width: 230,
                     height: 45,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                       ),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                     child: TextFormField(
+                      controller: _searchController,
+                      onChanged: (value) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          if (value.isEmpty) {
+                            examViewModel.clearSearch();
+                          } else {
+                            examViewModel.searchExams(value);
+                          }
+                        });
+                      },
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.search),
                         hintText: "Search For Categories , Jobs,..",
@@ -117,7 +132,8 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           CircleAvatar(
                             radius: 40,
-                            backgroundImage: AssetImage("assets/logo_drawer.icon.png"),
+                            backgroundImage:
+                                AssetImage("assets/logo_drawer.icon.png"),
                           ),
                           SizedBox(
                             height: 10,
@@ -127,7 +143,8 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Text(
                                 "SARKARI RESULT",
-                                style: TextStyle(fontWeight: FontWeight.w900 , fontSize: 20),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900, fontSize: 20),
                               ),
                               Text(
                                 DateFormat('dd-MMM-yyyy').format(time),
@@ -141,15 +158,19 @@ class _HomePageState extends State<HomePage> {
               ),
               ListTile(
                 leading: ImageIcon(
-                  AssetImage('assets/home_18.png'), 
+                  AssetImage('assets/home_18.png'),
                   color: Color(0xffaa183d),
                   size: 35,
                 ),
                 title: Text(
                   "Home",
                   style: TextStyle(
-                    color: selectedTitle == "Home" ? Color(0xffaa183d) : Colors.black,
-                    fontWeight: selectedTitle == "Home" ? FontWeight.bold : FontWeight.normal,
+                    color: selectedTitle == "Home"
+                        ? Color(0xffaa183d)
+                        : Colors.black,
+                    fontWeight: selectedTitle == "Home"
+                        ? FontWeight.bold
+                        : FontWeight.normal,
                   ),
                 ),
                 onTap: () {
@@ -161,15 +182,19 @@ class _HomePageState extends State<HomePage> {
               const Divider(),
               ListTile(
                 leading: ImageIcon(
-                  AssetImage('assets/heart_18.png'), 
+                  AssetImage('assets/heart_18.png'),
                   color: Color(0xffaa183d),
                   size: 35,
                 ),
                 title: Text(
                   "Saved JOb",
                   style: TextStyle(
-                    color: selectedTitle == "Saved JOb" ? Color(0xffaa183d) : Colors.black,
-                    fontWeight: selectedTitle == "Saved JOb" ? FontWeight.bold : FontWeight.normal,
+                    color: selectedTitle == "Saved JOb"
+                        ? Color(0xffaa183d)
+                        : Colors.black,
+                    fontWeight: selectedTitle == "Saved JOb"
+                        ? FontWeight.bold
+                        : FontWeight.normal,
                   ),
                 ),
                 onTap: () {
@@ -179,13 +204,21 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               const Divider(),
-                ListTile(
-                leading: Icon(Icons.notification_important_outlined , color: Color(0xffaa183d), size: 35,),
+              ListTile(
+                leading: Icon(
+                  Icons.notification_important_outlined,
+                  color: Color(0xffaa183d),
+                  size: 35,
+                ),
                 title: Text(
                   "Notification",
                   style: TextStyle(
-                    color: selectedTitle == "Notification" ? Color(0xffaa183d) : Colors.black,
-                    fontWeight: selectedTitle == "Notification" ? FontWeight.bold : FontWeight.normal,
+                    color: selectedTitle == "Notification"
+                        ? Color(0xffaa183d)
+                        : Colors.black,
+                    fontWeight: selectedTitle == "Notification"
+                        ? FontWeight.bold
+                        : FontWeight.normal,
                   ),
                 ),
                 onTap: () {
@@ -196,12 +229,20 @@ class _HomePageState extends State<HomePage> {
               ),
               const Divider(),
               ListTile(
-                leading: Icon(Icons.share_outlined , color: Color(0xffaa183d), size: 35,),
+                leading: Icon(
+                  Icons.share_outlined,
+                  color: Color(0xffaa183d),
+                  size: 35,
+                ),
                 title: Text(
                   "Share this App",
                   style: TextStyle(
-                    color: selectedTitle == "Share this App" ? Color(0xffaa183d) : Colors.black,
-                     fontWeight: selectedTitle == "Share this App" ? FontWeight.bold : FontWeight.normal,
+                    color: selectedTitle == "Share this App"
+                        ? Color(0xffaa183d)
+                        : Colors.black,
+                    fontWeight: selectedTitle == "Share this App"
+                        ? FontWeight.bold
+                        : FontWeight.normal,
                   ),
                 ),
                 onTap: () {
@@ -212,12 +253,20 @@ class _HomePageState extends State<HomePage> {
               ),
               const Divider(),
               ListTile(
-                leading: Icon(Icons.star_border_outlined , color: Color(0xffaa183d), size: 35,),
+                leading: Icon(
+                  Icons.star_border_outlined,
+                  color: Color(0xffaa183d),
+                  size: 35,
+                ),
                 title: Text(
                   "Rate  this App",
                   style: TextStyle(
-                    color: selectedTitle == "Rate this App" ? Color(0xffaa183d) : Colors.black,
-                     fontWeight: selectedTitle == "Rate this App" ? FontWeight.bold : FontWeight.normal,
+                    color: selectedTitle == "Rate this App"
+                        ? Color(0xffaa183d)
+                        : Colors.black,
+                    fontWeight: selectedTitle == "Rate this App"
+                        ? FontWeight.bold
+                        : FontWeight.normal,
                   ),
                 ),
                 onTap: () {
@@ -229,15 +278,19 @@ class _HomePageState extends State<HomePage> {
               const Divider(),
               ListTile(
                 leading: ImageIcon(
-                  AssetImage('assets/interrogation_18.png'), 
+                  AssetImage('assets/interrogation_18.png'),
                   color: Color(0xffaa183d),
                   size: 35,
                 ),
                 title: Text(
                   "About",
                   style: TextStyle(
-                    color: selectedTitle == "About" ? Color(0xffaa183d) : Colors.black,
-                    fontWeight: selectedTitle == "About" ? FontWeight.bold : FontWeight.normal,
+                    color: selectedTitle == "About"
+                        ? Color(0xffaa183d)
+                        : Colors.black,
+                    fontWeight: selectedTitle == "About"
+                        ? FontWeight.bold
+                        : FontWeight.normal,
                   ),
                 ),
                 onTap: () {
@@ -256,7 +309,7 @@ class _HomePageState extends State<HomePage> {
           color: Color(0xfff1f6fc),
           child: Column(
             children: [
-               Container(
+              Container(
                 height: 50,
                 width: double.infinity,
                 color: const Color(0xfff1f1f1),
@@ -266,17 +319,18 @@ class _HomePageState extends State<HomePage> {
                       margin: const EdgeInsets.only(left: 15),
                       child: const Text(
                         "Trending",
-                        style:
-                            TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
                       )),
                 ),
               ),
-              SizedBox(height: 15,),
-               SizedBox(
-                height:230, // Set height as needed
-                child: Center(child: CarouselWithButtonOverlay()),
+              SizedBox(
+                height: 15,
               ),
-          
+              SizedBox(
+                height: 230, // Set height as needed
+                child: Center(child: CarouselWithButtonOverlay(displayedExams: examViewModel.displayedButtonData)),
+              ),
               Container(
                 height: 50,
                 width: double.infinity,
@@ -287,8 +341,8 @@ class _HomePageState extends State<HomePage> {
                       margin: const EdgeInsets.only(left: 15),
                       child: const Text(
                         "Categories",
-                        style:
-                            TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
                       )),
                 ),
               ),
@@ -307,12 +361,12 @@ class _HomePageState extends State<HomePage> {
                       margin: const EdgeInsets.only(left: 15),
                       child: const Text(
                         "Latest Update",
-                        style:
-                            TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
                       )),
                 ),
               ),
-              ResultAndLatestJobsSection(),
+              ResultAndLatestJobsSection(displayedExams: examViewModel.displayedExams, displayedExamsAdmitcard: examViewModel.displayedadmitCardExamList, displayedExamsAnswerKey: examViewModel.displayedAnswerKeyExamList, displayedExamsResult: examViewModel.displayedResultExamList),
               Container(
                 height: 50,
                 width: double.infinity,
@@ -323,8 +377,8 @@ class _HomePageState extends State<HomePage> {
                       margin: const EdgeInsets.only(left: 15),
                       child: const Text(
                         "Category Wise Update",
-                        style:
-                            TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
                       )),
                 ),
               ),

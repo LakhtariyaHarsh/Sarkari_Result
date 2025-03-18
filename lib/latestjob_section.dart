@@ -9,7 +9,11 @@ import 'view_more.dart';
 
 // ignore: must_be_immutable
 class ResultAndLatestJobsSection extends StatelessWidget {
-  ResultAndLatestJobsSection({super.key});
+  final List<Map<String, String>> displayedExams;
+  final List<Map<String, String>> displayedExamsAdmitcard;
+  final List<Map<String, String>> displayedExamsAnswerKey;
+  final List<Map<String, String>> displayedExamsResult;
+  ResultAndLatestJobsSection({super.key, required this.displayedExams, required this.displayedExamsAdmitcard, required this.displayedExamsAnswerKey, required this.displayedExamsResult});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class ResultAndLatestJobsSection extends StatelessWidget {
             // Latest Jobs Column
             ExamSection(
               title: "Latest Jobs",
-              exams: examViewModel.examList,
+              exams: displayedExams,
               color: Color(0xffaa183d),
               onPressed: () {
                 Navigator.push(
@@ -37,7 +41,7 @@ class ResultAndLatestJobsSection extends StatelessWidget {
 
             ExamSection(
               title: "Result",
-              exams: examViewModel.resultExamList,
+              exams: displayedExamsResult,
               color: Color(0xff3c6626),
               onPressed: () {
                 Navigator.push(
@@ -60,7 +64,7 @@ class ResultAndLatestJobsSection extends StatelessWidget {
             // Latest Jobs Column
             ExamSection(
               title: "Admit Card",
-              exams: examViewModel.admitCardExamList,
+              exams: displayedExamsAdmitcard,
               color: Color(0xff3c6626),
               onPressed: () {
                 Navigator.push(
@@ -74,7 +78,7 @@ class ResultAndLatestJobsSection extends StatelessWidget {
 
             ExamSection(
               title: "Answer Key",
-              exams: examViewModel.answerKeyExamList,
+              exams: displayedExamsAnswerKey,
               color: Color(0xffaa183d),
               onPressed: () {
                 Navigator.push(

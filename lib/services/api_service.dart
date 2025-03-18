@@ -1,17 +1,15 @@
-
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
   final Dio _dio = Dio(
-  BaseOptions(
-    baseUrl: "http://10.0.2.2:4000/api",  // Use this for Android Emulator
-    connectTimeout: Duration(seconds: 30),
-    receiveTimeout: Duration(seconds: 30),
-    sendTimeout: Duration(seconds: 30),
-  ),
-);
-
+    BaseOptions(
+      baseUrl: "http://10.0.2.2:4000/api", // Use this for Android Emulator
+      connectTimeout: Duration(seconds: 30),
+      receiveTimeout: Duration(seconds: 30),
+      sendTimeout: Duration(seconds: 30),
+    ),
+  );
 
   // Add Authorization Token to Headers
   Future<Dio> getDioWithAuth() async {
@@ -80,9 +78,12 @@ class ApiService {
   }
 
   // Fetch exams with CertificateVerification available (sorted by CertificateVerification date)
-  Future<Map<String, dynamic>> getExamsByCertificateVerification(int page, int limit) async {
-    return _fetchExams("/exams/certificateVerification", page, limit,
-        {"iscertificateVerificationAvailable": true, "sort": "certificateVerificationAvailable"});
+  Future<Map<String, dynamic>> getExamsByCertificateVerification(
+      int page, int limit) async {
+    return _fetchExams("/exams/certificateVerification", page, limit, {
+      "iscertificateVerificationAvailable": true,
+      "sort": "certificateVerificationAvailable"
+    });
   }
 
   // Fetch exams with Important available (sorted by Important date)
@@ -115,27 +116,28 @@ class ApiService {
         {"isanswerKeyAvailable": true, "sort": "answerKeyAvailable"});
   }
 
- // Fetch Exams Helper Method (Returns Full Exam Data)
-Future<Map<String, dynamic>> _fetchExams(String endpoint, int page, int limit,
-    [Map<String, dynamic>? additionalParams]) async {
-  try {
-    Map<String, dynamic> queryParams = {"page": page, "limit": limit};
-    if (additionalParams != null) {
-      queryParams.addAll(additionalParams);
-    }
+  // Fetch Exams Helper Method (Returns Full Exam Data)
+  Future<Map<String, dynamic>> _fetchExams(String endpoint, int page, int limit,
+      [Map<String, dynamic>? additionalParams]) async {
+    try {
+      Map<String, dynamic> queryParams = {"page": page, "limit": limit};
+      if (additionalParams != null) {
+        queryParams.addAll(additionalParams);
+      }
 
-    Response response =
-        await _dio.get(endpoint, queryParameters: queryParams);
-    
-    return {
-      "exams": List<Map<String, dynamic>>.from(response.data["exams"]), // Ensure correct type
-      "totalPages": response.data["totalPages"]
-    };
-  } catch (e) {
-    print("Fetch Exams Error: $e");
-    throw Exception("Failed to load exams: $e");
+      Response response =
+          await _dio.get(endpoint, queryParameters: queryParams);
+
+      return {
+        "exams": List<Map<String, dynamic>>.from(
+            response.data["exams"]), // Ensure correct type
+        "totalPages": response.data["totalPages"]
+      };
+    } catch (e) {
+      print("Fetch Exams Error: $e");
+      throw Exception("Failed to load exams: $e");
+    }
   }
-}
 
   // Fetch a single exam by ID
   Future<Map<String, dynamic>> getExamById(String examId) async {
@@ -156,6 +158,19 @@ Future<Map<String, dynamic>> _fetchExams(String endpoint, int page, int limit,
     } catch (e) {
       print("Get Eligibility Error: $e");
       throw Exception("Failed to load eligibility criteria: $e");
+    }
+  }
+
+  // Fetch exams by search query (name)
+  Future<List<Map<String, dynamic>>> searchExamsByName(String query) async {
+    try {
+      Response response =
+          await _dio.get("/exams/name", queryParameters: {"query": query});
+
+      return List<Map<String, dynamic>>.from(response.data);
+    } catch (e) {
+      print("Search Exam by Name Error: $e");
+      throw Exception("Failed to search exams: $e");
     }
   }
 
