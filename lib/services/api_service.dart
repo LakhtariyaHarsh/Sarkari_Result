@@ -5,6 +5,8 @@ class ApiService {
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: "http://10.0.2.2:4000/api", // Use this for Android Emulator
+      // baseUrl: "http://192.168.0.78:4000/api",
+
       connectTimeout: Duration(seconds: 30),
       receiveTimeout: Duration(seconds: 30),
       sendTimeout: Duration(seconds: 30),
@@ -166,13 +168,12 @@ class ApiService {
     try {
       Response response =
           await _dio.get("/exams/name", queryParameters: {"query": query});
-
       return List<Map<String, dynamic>>.from(response.data);
     } catch (e) {
       print("Search Exam by Name Error: $e");
       throw Exception("Failed to search exams: $e");
     }
-  }
+  } 
 
   // Fetch Posts
   Future<Map<String, dynamic>> getPosts() async {

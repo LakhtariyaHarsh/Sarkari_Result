@@ -12,12 +12,32 @@ class ViewMore extends StatefulWidget {
 }
 
 class _ViewMoreState extends State<ViewMore> {
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
-    // Fetch data when the screen is initialized
-    Future.microtask(
-        () => Provider.of<ExamViewModel>(context, listen: false).fetchExams());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ExamViewModel>(context, listen: false).fetchExams();
+    });
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    final examViewModel = Provider.of<ExamViewModel>(context, listen: false);
+    if (_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent - 200 &&
+        !examViewModel.isLoadingMore &&
+        examViewModel.page < examViewModel.totalPages) {
+      examViewModel.page++;
+      examViewModel.fetchExams(isLoadMore: true);
+    }
   }
 
   @override
@@ -38,37 +58,52 @@ class _ViewMoreState extends State<ViewMore> {
       body: Container(
         color: const Color(0xfff3f3f3),
         child: examViewModel.isLoading
-            ? Center(
+            ? const Center(
                 child: SpinKitFadingCircle(
-                  color: Colors.blue, // Change color as needed
+                  color: Colors.blue,
                   size: 50.0,
                 ),
               )
-            : SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 15),
-                    ...examViewModel.examList.map((exam) => InkWell(
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Jobinformation(examId: exam['id']!,)),
+            : ListView.builder(
+                controller: _scrollController,
+                itemCount: examViewModel.examList.length + 1, // Extra item for loading
+                itemBuilder: (context, index) {
+                  if (index < examViewModel.examList.length) {
+                    final exam = examViewModel.examList[index];
+                    return InkWell(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Jobinformation(
+                            examId: exam['id']!,
                           ),
-                          child: Card(
-                            color: Color.fromARGB(255, 218, 229, 246),
-                            child: ListTile(
-                              leading: const Icon(Icons.circle,
-                                  size: 15, color: Colors.black54),
-                              title: Text(
-                                exam['name']!,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
+                        ),
+                      ),
+                      child: Card(
+                        color: const Color.fromARGB(255, 218, 229, 246),
+                        child: ListTile(
+                          leading: const Icon(Icons.circle,
+                              size: 15, color: Colors.black54),
+                          title: Text(
+                            exam['name']!,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
-                        )),
-                  ],
-                ),
+                        ),
+                      ),
+                    );
+                  } else if (examViewModel.isLoadingMore) {
+                    return const Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Center(
+                        child: SpinKitFadingCircle(
+                          color: Colors.blue,
+                          size: 40.0,
+                        ),
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
               ),
       ),
     );

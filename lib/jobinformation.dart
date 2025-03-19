@@ -75,7 +75,7 @@ class _JobinformationState extends State<Jobinformation> {
                             child: Column(
                               children: [
                                 Text(
-                                  'Ministry of Corporate Affairs (MCA)',
+                                  examViewModel.selectedExam!['organizationName'],
                                   style: TextStyle(
                                       fontSize: 18,
                                       color: Color(0xffff36ff),

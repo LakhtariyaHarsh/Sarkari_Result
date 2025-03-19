@@ -12,13 +12,37 @@ class Admitcard extends StatefulWidget {
 }
 
 class _AdmitcardState extends State<Admitcard> {
-   void initState() {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
     super.initState();
-    // Fetch data when the screen is initialized
-    Future.microtask(
-        () => Provider.of<ExamViewModel>(context, listen: false).fetchExamsByAdmitCard());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ExamViewModel>(context, listen: false)
+          .fetchExamsByAdmitCard();
+    });
+    _scrollController.addListener(_scrollListener);
   }
-@override
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    final examViewModel = Provider.of<ExamViewModel>(context, listen: false);
+
+    if (_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent - 200 &&
+        !examViewModel.isLoadingMore &&
+        examViewModel.page < examViewModel.totalPages) {
+      examViewModel.page++;
+      examViewModel.fetchExamsByAdmitCard(isLoadMore: true);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final examViewModel = Provider.of<ExamViewModel>(context);
 
@@ -29,44 +53,59 @@ class _AdmitcardState extends State<Admitcard> {
         ),
         backgroundColor: const Color(0xffaa183d),
         title: const Text(
-          "Result",
+          "Admit Card",
           style: TextStyle(color: Colors.white),
         ),
       ),
       body: Container(
         color: const Color(0xfff3f3f3),
         child: examViewModel.isLoading
-            ? Center(
+            ? const Center(
                 child: SpinKitFadingCircle(
-                  color: Colors.blue, // Change color as needed
+                  color: Colors.blue,
                   size: 50.0,
                 ),
               )
-            : SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 15),
-                    ...examViewModel.admitCardExamList.map((exam) => InkWell(
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Jobinformation(examId: exam['id']!)),
+            : ListView.builder(
+                controller: _scrollController,
+                itemCount: examViewModel.admitCardExamList.length + 1,
+                itemBuilder: (context, index) {
+                  if (index < examViewModel.admitCardExamList.length) {
+                    final exam = examViewModel.admitCardExamList[index];
+                    return InkWell(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Jobinformation(
+                            examId: exam['id']!,
                           ),
-                          child: Card(
-                            color: Color.fromARGB(255, 218, 229, 246),
-                            child: ListTile(
-                              leading: const Icon(Icons.circle,
-                                  size: 15, color: Colors.black54),
-                              title: Text(
-                                exam['name']!,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
+                        ),
+                      ),
+                      child: Card(
+                        color: const Color.fromARGB(255, 218, 229, 246),
+                        child: ListTile(
+                          leading: const Icon(Icons.circle,
+                              size: 15, color: Colors.black54),
+                          title: Text(
+                            exam['name']!,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
-                        )),
-                  ],
-                ),
+                        ),
+                      ),
+                    );
+                  } else if (examViewModel.isLoadingMore) {
+                    return const Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Center(
+                        child: SpinKitFadingCircle(
+                          color: Colors.blue,
+                          size: 40.0,
+                        ),
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
               ),
       ),
     );
