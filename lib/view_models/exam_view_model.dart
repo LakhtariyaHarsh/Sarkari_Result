@@ -23,9 +23,6 @@ class ExamViewModel extends ChangeNotifier {
   List<Map<String, dynamic>> get searchResults => _searchResults;
   String? get errorMessage => _errorMessage;
 
-  bool isLoadingMore = false;
-  List<Map<String, String>> get exams => examList;
-
   bool isLoading = false;
   int page = 1;
   int limit = 5;
@@ -146,51 +143,21 @@ class ExamViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchExams({bool isLoadMore = false}) async {
-    if (isLoadMore && (isLoadingMore || page > totalPages)) return;
-
+  Future<void> fetchExams() async {
+    _setLoading(true);
     try {
-      if (isLoadMore) {
-        isLoadingMore = true;
-      } else {
-        isLoading = true;
-      }
-      notifyListeners();
-
-      Map<String, dynamic> data = await _apiService.getExams(page, limit);
-
-      List<Map<String, String>> fetchedExams = data["exams"]
-          .where((exam) => exam["_id"] != null && exam["name"] != null)
-          .map<Map<String, String>>((exam) {
-        String categoryId = "";
-        if (exam["examCategory"] != null) {
-          categoryId = exam["examCategory"] is Map
-              ? exam["examCategory"]["_id"].toString()
-              : exam["examCategory"].toString();
-        }
+      var data = await _apiService.getExams(page, limit);
+      examList = data["exams"].map<Map<String, String>>((exam) {
         return {
           "id": exam["_id"].toString(),
           "name": exam["name"].toString(),
-          "examcategory": categoryId,
         };
       }).toList();
-
-      if (isLoadMore) {
-        examList.addAll(fetchedExams);
-      } else {
-        examList = fetchedExams;
-      }
       totalPages = data["totalPages"];
-
-      isLoading = false;
-      isLoadingMore = false;
-      notifyListeners();
     } catch (e) {
-      isLoading = false;
-      isLoadingMore = false;
-      notifyListeners();
       print("Error fetching exams: $e");
     }
+    _setLoading(false);
   }
 
   Future<void> fetchExamDataByLastdate() async {
@@ -200,7 +167,7 @@ class ExamViewModel extends ChangeNotifier {
       buttonData = data["exams"].map<Map<String, String>>((exam) {
         return {
           "id": exam["_id"].toString(),
-          "name": exam["name"].toString(),
+          "name": exam["tileName"].toString(),
         };
       }).toList();
       totalPages = data["totalPages"];
@@ -210,122 +177,55 @@ class ExamViewModel extends ChangeNotifier {
     _setLoading(false);
   }
 
-  Future<void> fetchExamsByAdmitCard({bool isLoadMore = false}) async {
-    if (isLoadMore && (isLoadingMore || page > totalPages)) return;
-
+  Future<void> fetchExamsByAdmitCard() async {
+    _setLoading(true);
     try {
-      if (isLoadMore) {
-        isLoadingMore = true;
-      } else {
-        _setLoading(true);
-      }
-      notifyListeners();
-
       var data = await _apiService.getExamsByAdmitCard(page, limit);
-
-      List<Map<String, String>> fetchedExams = data["exams"]
-          .where((exam) => exam["_id"] != null && exam["name"] != null)
-          .map<Map<String, String>>((exam) {
+      admitCardExamList = data["exams"].map<Map<String, String>>((exam) {
         return {
           "id": exam["_id"].toString(),
           "name": exam["name"].toString(),
         };
       }).toList();
-
-      if (isLoadMore) {
-        admitCardExamList.addAll(fetchedExams);
-      } else {
-        admitCardExamList = fetchedExams;
-      }
       totalPages = data["totalPages"];
-
-      isLoadingMore = false;
-      _setLoading(false);
-      notifyListeners();
     } catch (e) {
-      isLoadingMore = false;
-      _setLoading(false);
-      notifyListeners();
       print("Error fetching exams by admit card: $e");
     }
+    _setLoading(false);
   }
 
-  Future<void> fetchExamsByResult({bool isLoadMore = false}) async {
-    if (isLoadMore && (isLoadingMore || page > totalPages)) return;
-
+  Future<void> fetchExamsByResult() async {
+    _setLoading(true);
     try {
-      if (isLoadMore) {
-        isLoadingMore = true;
-      } else {
-        _setLoading(true);
-      }
-      notifyListeners();
-
       var data = await _apiService.getExamsByResult(page, limit);
-
-      List<Map<String, String>> fetchedExams =
-          data["exams"].map<Map<String, String>>((exam) {
+      resultExamList = data["exams"].map<Map<String, String>>((exam) {
         return {
           "id": exam["_id"].toString(),
           "name": exam["name"].toString(),
         };
       }).toList();
-
-      if (isLoadMore) {
-        resultExamList.addAll(fetchedExams);
-      } else {
-        resultExamList = fetchedExams;
-      }
       totalPages = data["totalPages"];
-
-      isLoadingMore = false;
-      _setLoading(false);
-      notifyListeners();
     } catch (e) {
-      isLoadingMore = false;
-      _setLoading(false);
-      notifyListeners();
       print("Error fetching exams by result: $e");
     }
+    _setLoading(false);
   }
 
-  Future<void> fetchExamsByAnswerKey({bool isLoadMore = false}) async {
-    if (isLoadMore && (isLoadingMore || page > totalPages)) return;
-
+  Future<void> fetchExamsByAnswerKey() async {
+    _setLoading(true);
     try {
-      if (isLoadMore) {
-        isLoadingMore = true;
-      } else {
-        _setLoading(true);
-      }
-      notifyListeners();
-
       var data = await _apiService.getExamsByAnswerKey(page, limit);
-
-      List<Map<String, String>> fetchedExams =
-          data["exams"].map<Map<String, String>>((exam) {
+      answerKeyExamList = data["exams"].map<Map<String, String>>((exam) {
         return {
           "id": exam["_id"].toString(),
           "name": exam["name"].toString(),
         };
       }).toList();
-
-      if (isLoadMore) {
-        answerKeyExamList.addAll(fetchedExams);
-      } else {
-        answerKeyExamList = fetchedExams;
-      }
       totalPages = data["totalPages"];
-
-      isLoadingMore = false;
-      _setLoading(false);
-      notifyListeners();
     } catch (e) {
-      isLoadingMore = false;
-      _setLoading(false);
-      notifyListeners();
       print("Error fetching exams by answer key: $e");
     }
+    _setLoading(false);
   }
 
   Future<void> fetchExamsBySyllabus() async {

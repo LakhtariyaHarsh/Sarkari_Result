@@ -75,7 +75,8 @@ class _JobinformationState extends State<Jobinformation> {
                             child: Column(
                               children: [
                                 Text(
-                                  examViewModel.selectedExam!['organizationName'],
+                                  examViewModel
+                                      .selectedExam!['organizationName'],
                                   style: TextStyle(
                                       fontSize: 18,
                                       color: Color(0xffff36ff),
@@ -205,7 +206,8 @@ class _JobinformationState extends State<Jobinformation> {
                               Expanded(
                                 flex: 5,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 8),
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -375,12 +377,14 @@ class _JobinformationState extends State<Jobinformation> {
                                 ),
                                 Expanded(
                                     flex: 8,
-                                    child: Center(
-                                        child: Text(
-                                      examViewModel.selectedExam!['name'],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    )))
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        examViewModel.selectedExam!['name'],
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ))
                               ],
                             ),
                           ),
@@ -1020,52 +1024,51 @@ class _JobinformationState extends State<Jobinformation> {
                             children: [
                               Expanded(
                                 flex: 5,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                        right: BorderSide(
-                                            color: Colors.black, width: 1)),
-                                  ),
-                                  child: Center(
-                                      child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 8, bottom: 8),
+                                child: Center(
                                     child: Text(
-                                      "Official Website",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xfffc0afc)),
-                                    ),
-                                  )),
-                                ),
+                                  "Official Website",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xfffc0afc)),
+                                )),
                               ),
                               Expanded(
                                 flex: 5,
-                                child: Center(
-                                  child: InkWell(
-                                    child: Text(
-                                      "${ examViewModel.selectedExam!['name']} Official Website",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: selectedTitle ==
-                                                  "${ examViewModel.selectedExam!['name']} Official Website"
-                                              ? Color(0xff591f8d)
-                                              : Color(0xff0707ec)),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                        left: BorderSide(
+                                            color: Colors.black, width: 1)),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    child: InkWell(
+                                      child: Text(
+                                        "${examViewModel.selectedExam!['name']} Official Website",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: selectedTitle ==
+                                                    "${examViewModel.selectedExam!['name']} Official Website"
+                                                ? Color(0xff591f8d)
+                                                : Color(0xff0707ec)),
+                                      ),
+                                      onTap: () async {
+                                        setState(() {
+                                          selectedTitle =
+                                              "${examViewModel.selectedExam!['name']} Official Website";
+                                        });
+                                        // final Uri url = Uri.parse(
+                                        //     examViewModel.selectedExam!['officialWebsite']); // Replace with your URL
+                                        // if (await canLaunchUrl(url)) {
+                                        //   await launchUrl(url,
+                                        //       mode:
+                                        //           LaunchMode.externalApplication);
+                                        // } else {
+                                        //   throw "Could not launch $url";
+                                        // }
+                                      },
                                     ),
-                                    onTap: () async {
-                                      setState(() {
-                                        selectedTitle = "${ examViewModel.selectedExam!['name']} Official Website";
-                                      });
-                                      // final Uri url = Uri.parse(
-                                      //     examViewModel.selectedExam!['officialWebsite']); // Replace with your URL
-                                      // if (await canLaunchUrl(url)) {
-                                      //   await launchUrl(url,
-                                      //       mode:
-                                      //           LaunchMode.externalApplication);
-                                      // } else {
-                                      //   throw "Could not launch $url";
-                                      // }
-                                    },
                                   ),
                                 ),
                               ),

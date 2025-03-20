@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:second_ui/splash_screeen.dart';
 import 'package:second_ui/view_models/exam_view_model.dart';
@@ -23,10 +24,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: Size(375, 812),
-      child: const MaterialApp(
+      child: MaterialApp(
         title: 'Sarkari Result App',
         debugShowCheckedModeBanner: false,
-        home: SplashScreeen(),
+        theme: ThemeData(
+        useMaterial3: true,
+        textTheme: GoogleFonts.latoTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
+        home: const SplashScreeen(),
       ),
     );
   }
