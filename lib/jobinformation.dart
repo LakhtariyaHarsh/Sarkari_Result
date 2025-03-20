@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:second_ui/view_models/exam_view_model.dart';
-// import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Jobinformation extends StatefulWidget {
   final String examId;
@@ -138,16 +138,15 @@ class _JobinformationState extends State<Jobinformation> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Center(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Important Dates',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.green[800],
-                                                fontWeight: FontWeight.bold),
-                                          ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
+                                        child: Text(
+                                          'Important Dates',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.green[800],
+                                              fontWeight: FontWeight.bold),
                                         ),
                                       ),
                                       SizedBox(height: 5),
@@ -206,20 +205,17 @@ class _JobinformationState extends State<Jobinformation> {
                               Expanded(
                                 flex: 5,
                                 child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Center(
-                                        child: Text(
-                                          'Application Fee',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.green[800],
-                                              fontWeight: FontWeight.bold),
-                                        ),
+                                      Text(
+                                        'Application Fee',
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.green[800],
+                                            fontWeight: FontWeight.bold),
                                       ),
                                       SizedBox(height: 10),
                                       Text(
@@ -646,8 +642,7 @@ class _JobinformationState extends State<Jobinformation> {
                                   ),
                                   child: Center(
                                       child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 8, bottom: 8),
+                                    padding: const EdgeInsets.all(8),
                                     child: Text(
                                       "Apply Online (Registration)",
                                       style: TextStyle(
@@ -675,16 +670,16 @@ class _JobinformationState extends State<Jobinformation> {
                                         selectedTitle = "Click Here";
                                       });
 
-                                      // final Uri url = Uri.parse(examViewModel
-                                      //         .selectedExam![
-                                      //     'applyOnline']); // Replace with your URL
-                                      // if (await canLaunchUrl(url)) {
-                                      //   await launchUrl(url,
-                                      //       mode:
-                                      //           LaunchMode.externalApplication);
-                                      // } else {
-                                      //   throw "Could not launch $url";
-                                      // }
+                                      final Uri url = Uri.parse(examViewModel
+                                              .selectedExam![
+                                          'applyOnline']); // Replace with your URL
+                                      if (await canLaunchUrl(url)) {
+                                        await launchUrl(url,
+                                            mode:
+                                                LaunchMode.externalApplication);
+                                      } else {
+                                        throw "Could not launch $url";
+                                      }
                                     },
                                   ),
                                 ),
@@ -742,16 +737,16 @@ class _JobinformationState extends State<Jobinformation> {
                                         selectedTitle = "Click Here";
                                       });
 
-                                      // final Uri url = Uri.parse(examViewModel
-                                      //         .selectedExam![
-                                      //     'howToFillForm']); // Replace with your URL
-                                      // if (await canLaunchUrl(url)) {
-                                      //   await launchUrl(url,
-                                      //       mode:
-                                      //           LaunchMode.externalApplication);
-                                      // } else {
-                                      //   throw "Could not launch $url";
-                                      // }
+                                      final Uri url = Uri.parse(examViewModel
+                                              .selectedExam![
+                                          'howToFillForm']); // Replace with your URL
+                                      if (await canLaunchUrl(url)) {
+                                        await launchUrl(url,
+                                            mode:
+                                                LaunchMode.externalApplication);
+                                      } else {
+                                        throw "Could not launch $url";
+                                      }
                                     },
                                   ),
                                 ),
@@ -811,16 +806,16 @@ class _JobinformationState extends State<Jobinformation> {
                                           setState(() {
                                             selectedTitle = "Hindi";
                                           });
-                                          // final Uri url = Uri.parse(examViewModel
-                                          //         .selectedExam![
-                                          //     'downloadShortNotice']); // Replace with your URL
-                                          // if (await canLaunchUrl(url)) {
-                                          //   await launchUrl(url,
-                                          //       mode: LaunchMode
-                                          //           .externalApplication);
-                                          // } else {
-                                          //   throw "Could not launch $url";
-                                          // }
+                                          final Uri url = Uri.parse(examViewModel
+                                                  .selectedExam![
+                                              'downloadShortNotice']); // Replace with your URL
+                                          if (await canLaunchUrl(url)) {
+                                            await launchUrl(url,
+                                                mode: LaunchMode
+                                                    .externalApplication);
+                                          } else {
+                                            throw "Could not launch $url";
+                                          }
                                         },
                                       ),
                                       Text("|"),
@@ -837,16 +832,16 @@ class _JobinformationState extends State<Jobinformation> {
                                           setState(() {
                                             selectedTitle = "English";
                                           });
-                                          // final Uri url = Uri.parse(examViewModel
-                                          //         .selectedExam![
-                                          //     'downloadShortNotice']); // Replace with your URL
-                                          // if (await canLaunchUrl(url)) {
-                                          //   await launchUrl(url,
-                                          //       mode: LaunchMode
-                                          //           .externalApplication);
-                                          // } else {
-                                          //   throw "Could not launch $url";
-                                          // }
+                                          final Uri url = Uri.parse(examViewModel
+                                                  .selectedExam![
+                                              'downloadShortNotice']); // Replace with your URL
+                                          if (await canLaunchUrl(url)) {
+                                            await launchUrl(url,
+                                                mode: LaunchMode
+                                                    .externalApplication);
+                                          } else {
+                                            throw "Could not launch $url";
+                                          }
                                         },
                                       ),
                                     ],
@@ -955,8 +950,7 @@ class _JobinformationState extends State<Jobinformation> {
                                   ),
                                   child: Center(
                                       child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 8, bottom: 8),
+                                    padding: const EdgeInsets.all(8),
                                     child: Text(
                                       "Join Sarkari Result Channel",
                                       style: TextStyle(
@@ -1024,51 +1018,55 @@ class _JobinformationState extends State<Jobinformation> {
                             children: [
                               Expanded(
                                 flex: 5,
-                                child: Center(
-                                    child: Text(
-                                  "Official Website",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xfffc0afc)),
-                                )),
-                              ),
-                              Expanded(
-                                flex: 5,
                                 child: Container(
                                   decoration: BoxDecoration(
                                     border: Border(
-                                        left: BorderSide(
+                                        right: BorderSide(
                                             color: Colors.black, width: 1)),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    child: InkWell(
-                                      child: Text(
-                                        "${examViewModel.selectedExam!['name']} Official Website",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: selectedTitle ==
-                                                    "${examViewModel.selectedExam!['name']} Official Website"
-                                                ? Color(0xff591f8d)
-                                                : Color(0xff0707ec)),
-                                      ),
-                                      onTap: () async {
-                                        setState(() {
-                                          selectedTitle =
-                                              "${examViewModel.selectedExam!['name']} Official Website";
-                                        });
-                                        // final Uri url = Uri.parse(
-                                        //     examViewModel.selectedExam!['officialWebsite']); // Replace with your URL
-                                        // if (await canLaunchUrl(url)) {
-                                        //   await launchUrl(url,
-                                        //       mode:
-                                        //           LaunchMode.externalApplication);
-                                        // } else {
-                                        //   throw "Could not launch $url";
-                                        // }
-                                      },
+                                    padding: const EdgeInsets.all(30.0),
+                                    child: Center(
+                                        child: Text(
+                                      "Official Website",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xfffc0afc)),
+                                    )),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 5,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: InkWell(
+                                    child: Text(
+                                      "${examViewModel.selectedExam!['name']} Official Website",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: selectedTitle ==
+                                                  "${examViewModel.selectedExam!['name']} Official Website"
+                                              ? Color(0xff591f8d)
+                                              : Color(0xff0707ec)),
                                     ),
+                                    onTap: () async {
+                                      setState(() {
+                                        selectedTitle =
+                                            "${examViewModel.selectedExam!['name']} Official Website";
+                                      });
+                                      final Uri url = Uri.parse(examViewModel
+                                              .selectedExam![
+                                          'officialWebsite']); // Replace with your URL
+                                      if (await canLaunchUrl(url)) {
+                                        await launchUrl(url,
+                                            mode:
+                                                LaunchMode.externalApplication);
+                                      } else {
+                                        throw "Could not launch $url";
+                                      }
+                                    },
                                   ),
                                 ),
                               ),

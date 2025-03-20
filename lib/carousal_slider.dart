@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -67,7 +68,6 @@ class _CarouselWithButtonOverlay extends State<CarouselWithButtonOverlay> {
                         itemCount: imageUrls.length,
                         itemBuilder: (BuildContext context, int index, int realIndex) {
                           try {
-                            // Ensure index is within bounds
                             bool isValidIndex = index < widget.displayedExams.length;
                             String buttonText = isValidIndex
                                 ? widget.displayedExams[index]['name'] ?? "Unknown"
@@ -103,51 +103,53 @@ class _CarouselWithButtonOverlay extends State<CarouselWithButtonOverlay> {
                                         ),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 12),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          ConstrainedBox(
-                                            constraints: BoxConstraints(maxWidth: 175),
-                                            child: Text(
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 12),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            AutoSizeText(
                                               buttonText,
                                               style: const TextStyle(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
                                               ),
+                                              maxLines: 2,
+                                              minFontSize: 10,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          ElevatedButton(
-                                            onPressed: isDisabled
-                                                ? null
-                                                : () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) => Jobinformation(
-                                                          examId: examId,
+                                            const SizedBox(height: 5),
+                                            ElevatedButton(
+                                              onPressed: isDisabled
+                                                  ? null
+                                                  : () {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) => Jobinformation(
+                                                            examId: examId,
+                                                          ),
                                                         ),
-                                                      ),
-                                                    );
-                                                  },
-                                            style: ElevatedButton.styleFrom(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(20),
+                                                      );
+                                                    },
+                                              style: ElevatedButton.styleFrom(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(20),
+                                                ),
+                                                backgroundColor: isDisabled ? Colors.grey : Colors.white,
                                               ),
-                                              backgroundColor: isDisabled ? Colors.grey : Colors.white,
-                                            ),
-                                            child: Text(
-                                              'Read More',
-                                              style: TextStyle(
-                                                color: isDisabled ? Colors.black45 : Color(0xffaa183d),
+                                              child: Text(
+                                                'Read More',
+                                                style: TextStyle(
+                                                  color: isDisabled ? Colors.black45 : Color(0xffaa183d),
+                                                ),
                                               ),
-                                            ),
-                                          )
-                                        ],
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],

@@ -4,8 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ApiService {
   final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: "http://10.0.2.2:4000/api", // Use this for Android Emulator
-      // baseUrl: "http://192.168.0.78:4000/api",
+      // baseUrl: "http://10.0.2.2:4000/api", // Use this for Android Emulator
+      baseUrl: "http://192.168.0.78:4000/api", // for your device
+      // baseUrl: "http://localhost:4000/api", // for web
 
       connectTimeout: Duration(seconds: 30),
       receiveTimeout: Duration(seconds: 30),

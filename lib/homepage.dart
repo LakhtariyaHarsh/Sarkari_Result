@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
         bottom: PreferredSize(
-          preferredSize: const Size(3, 60),
+          preferredSize: const Size.fromHeight(60), // Fix height
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -65,45 +65,49 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                      width: 125,
-                      height: 45,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.white),
-                      child: TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            "All Jobs",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ))),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    width: 230,
+                    width: 125, // Fixed width for "All Jobs" button
                     height: 45,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
+                      color: Colors.white,
                     ),
-                    child: TextFormField(
-                      controller: _searchController,
-                      onChanged: (value) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          if (value.isEmpty) {
-                            examViewModel.clearSearch();
-                          } else {
-                            examViewModel.searchExams(value);
-                          }
-                        });
-                      },
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.search),
-                        hintText: "Search For Categories , Jobs,..",
-                        hintStyle: TextStyle(fontWeight: FontWeight.w500),
-                        filled: true,
-                        fillColor: Colors.white,
+                    child: TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        "All Jobs",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10), // Add spacing
+                  Expanded(
+                    // 👈 Wrap the search bar with Expanded
+                    child: Container(
+                      height: 45,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: TextFormField(
+                        controller: _searchController,
+                        onChanged: (value) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            if (value.isEmpty) {
+                              examViewModel.clearSearch();
+                            } else {
+                              examViewModel.searchExams(value);
+                            }
+                          });
+                        },
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.search),
+                          hintText: "Search For Categories , Jobs,..",
+                          hintStyle: TextStyle(fontWeight: FontWeight.w500),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -329,7 +333,9 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(
                 height: 230, // Set height as needed
-                child: Center(child: CarouselWithButtonOverlay(displayedExams: examViewModel.displayedButtonData)),
+                child: Center(
+                    child: CarouselWithButtonOverlay(
+                        displayedExams: examViewModel.displayedButtonData)),
               ),
               Container(
                 height: 50,
@@ -366,7 +372,13 @@ class _HomePageState extends State<HomePage> {
                       )),
                 ),
               ),
-              ResultAndLatestJobsSection(displayedExams: examViewModel.displayedExams, displayedExamsAdmitcard: examViewModel.displayedadmitCardExamList, displayedExamsAnswerKey: examViewModel.displayedAnswerKeyExamList, displayedExamsResult: examViewModel.displayedResultExamList),
+              ResultAndLatestJobsSection(
+                  displayedExams: examViewModel.displayedExams,
+                  displayedExamsAdmitcard:
+                      examViewModel.displayedadmitCardExamList,
+                  displayedExamsAnswerKey:
+                      examViewModel.displayedAnswerKeyExamList,
+                  displayedExamsResult: examViewModel.displayedResultExamList),
               Container(
                 height: 50,
                 width: double.infinity,

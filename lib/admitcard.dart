@@ -109,49 +109,52 @@ class _AdmitcardState extends State<Admitcard> {
                   size: 50.0,
                 ),
               )
-            : ListView.builder(
-                controller: _scrollController,
-                itemCount: examList.length + 1, // Extra item for loading
-                itemBuilder: (context, index) {
-                  if (index < examList.length) {
-                    final exam = examList[index];
-                    return InkWell(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Jobinformation(
-                            examId: exam['id']!,
+            : Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: ListView.builder(
+                  controller: _scrollController,
+                  itemCount: examList.length + 1, // Extra item for loading
+                  itemBuilder: (context, index) {
+                    if (index < examList.length) {
+                      final exam = examList[index];
+                      return InkWell(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Jobinformation(
+                              examId: exam['id']!,
+                            ),
                           ),
                         ),
-                      ),
-                      child: Card(
-                        color: Colors.redAccent.withOpacity(0.8),
-                        child: ListTile(
-                          leading: const Icon(Icons.circle,
-                              size: 15, color: Colors.white),
-                          title: Text(
-                            exam['name']!,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                        child: Card(
+                          color: Colors.redAccent.withOpacity(0.8),
+                          child: ListTile(
+                            leading: const Icon(Icons.circle,
+                                size: 15, color: Colors.white),
+                            title: Text(
+                              exam['name']!,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  } else if (isLoadingMore) {
-                    return const Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Center(
-                        child: SpinKitFadingCircle(
-                          color: Colors.blue,
-                          size: 40.0,
+                      );
+                    } else if (isLoadingMore) {
+                      return const Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Center(
+                          child: SpinKitFadingCircle(
+                            color: Colors.blue,
+                            size: 40.0,
+                          ),
                         ),
-                      ),
-                    );
-                  }
-                  return const SizedBox.shrink();
-                },
-              ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
+            ),
       ),
     );
   }
